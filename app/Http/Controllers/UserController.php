@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
@@ -53,6 +54,12 @@ class UserController extends Controller
         $user->save();
 
         return (new UserResource($user))->response()->setStatusCode(200);
+    }
+
+    public function get(Request $request): UserResource
+    {
+        $user = Auth::user();
+        return new UserResource($user);
     }
 
 }
